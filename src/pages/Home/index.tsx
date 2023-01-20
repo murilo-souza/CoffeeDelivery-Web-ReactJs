@@ -25,10 +25,26 @@ export function Home() {
             qualquer hora
           </Subtitle>
           <InfoTextContainer>
-            <InfoText title="Compra simples e segura" icon={ShoppingCart} />
-            <InfoText title="Embalagem mantém o café intacto" icon={Package} />
-            <InfoText title="Entrega rápida e rastreada" icon={Timer} />
-            <InfoText title="O café chega fresquinho até você" icon={Coffee} />
+            <InfoText
+              title="Compra simples e segura"
+              icon={ShoppingCart}
+              variant="yellowDark"
+            />
+            <InfoText
+              title="Embalagem mantém o café intacto"
+              icon={Package}
+              variant="grayDark"
+            />
+            <InfoText
+              title="Entrega rápida e rastreada"
+              icon={Timer}
+              variant="yellow"
+            />
+            <InfoText
+              title="O café chega fresquinho até você"
+              icon={Coffee}
+              variant="purple"
+            />
           </InfoTextContainer>
         </ProductInfo>
         <Image src={CoffeeImg} alt="" />
