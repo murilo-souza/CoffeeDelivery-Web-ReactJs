@@ -40,7 +40,7 @@ export const Subtitle = styled.span`
 `
 
 export const InfoTextContainer = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2.5rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 1.5rem 2.5rem;
 `
