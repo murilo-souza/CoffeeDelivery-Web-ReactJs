@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.main`
   padding-top: 8.5rem;
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
 `
 export const Title = styled.h2`
   font-size: 1.125rem;
@@ -21,9 +21,7 @@ export const HeaderAddress = styled.div`
 
   gap: 0.5rem;
 
-  svg {
-    color: ${(props) => props.theme.yellowDark};
-  }
+  margin-bottom: 2rem;
 `
 
 export const HeaderSide = styled.div``
@@ -38,6 +36,11 @@ export const SubtitleAddress = styled.h4`
   font-size: 0.75rem;
   color: ${(props) => props.theme.baseText};
   font-weight: 400;
+`
+
+export const PaymentMethodContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 export const RightSide = styled.div``

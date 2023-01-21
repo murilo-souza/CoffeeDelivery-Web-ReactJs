@@ -20,5 +20,7 @@ export const Container = styled.div<BoxProps>`
     side === 'right' &&
     css`
       border-radius: 6px 44px 6px 44px;
+      width: 28rem;
     `}
+    margin-bottom: 0.75rem;
 `
