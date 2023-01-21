@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     font-family: 'Baloo 2', sans-serif;
     font-weight: bold;
     font-size: 1rem

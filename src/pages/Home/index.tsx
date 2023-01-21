@@ -1,4 +1,6 @@
 import {
+  CardContentList,
+  CardList,
   Container,
   Image,
   InfoContainer,
@@ -10,6 +12,7 @@ import {
 import CoffeeImg from '../../assets/CoffeeImg.png'
 import { InfoText } from '../../components/InfoText'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
+import { CoffeeCard } from '../../components/CoffeeCard'
 
 export function Home() {
   return (
@@ -49,6 +52,18 @@ export function Home() {
         </ProductInfo>
         <Image src={CoffeeImg} alt="" />
       </InfoContainer>
+      <CardList>
+        <h2>Nossos cafés</h2>
+        <CardContentList>
+          <CoffeeCard />
+          <CoffeeCard />
+          <CoffeeCard />
+          <CoffeeCard />
+          <CoffeeCard />
+          <CoffeeCard />
+          <CoffeeCard />
+        </CardContentList>
+      </CardList>
     </Container>
   )
 }

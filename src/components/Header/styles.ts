@@ -2,7 +2,13 @@ import styled from 'styled-components'
 
 export const HeaderContainer = styled.header`
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  background-color: ${(props) => props.theme.background};
+  position: fixed;
+  width: 100%;
+  height: 6.5rem;
+  max-width: 70rem;
 `
 
 export const PurchaseInfo = styled.div`
