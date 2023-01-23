@@ -5,10 +5,12 @@ import {
   Image,
   InfoContainer,
   Money,
+  RemoveButton,
   Title,
 } from './styles'
 import Coffee from '../../assets/Coffee.png'
 import { QuantityButton } from '../QuantityButton'
+import { Trash } from 'phosphor-react'
 
 export function PaymentCard() {
   return (
@@ -21,6 +23,10 @@ export function PaymentCard() {
         </Header>
         <Footer>
           <QuantityButton quantity={1} />
+          <RemoveButton>
+            <Trash size={16} />
+            <p>Remover</p>
+          </RemoveButton>
         </Footer>
       </InfoContainer>
     </Container>
