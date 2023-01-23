@@ -21,6 +21,8 @@ export const CoffeeContext = createContext({} as CoffeeContextData)
 export function CoffeeContextProvider({ children }: ContextProviderProps) {
   const [coffees, setCoffees] = useState<Coffee[]>([])
 
+  async function getData() {}
+
   return (
     <CoffeeContext.Provider value={{ coffees }}>
       {children}
