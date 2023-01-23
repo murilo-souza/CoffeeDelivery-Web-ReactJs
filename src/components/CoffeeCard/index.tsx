@@ -13,25 +13,36 @@ import {
   Title,
 } from './styles'
 
-import Coffee from '../../assets/Coffee.png'
 import { QuantityButton } from '../QuantityButton'
 
-export function CoffeeCard() {
+interface CoffeeCardProps {
+  imgUrl: string
+  title: string
+  subtitle: string
+  tags: string[]
+  price: number
+}
+
+interface CoffeeData {
+  data: CoffeeCardProps
+}
+
+export function CoffeeCard({ data }: CoffeeData) {
   return (
     <CardContainer>
-      <CoffeeImg src={Coffee} />
+      <CoffeeImg src={data.imgUrl} />
       <TagArea>
-        <Tag>Tradicional</Tag>
+        {data.tags.map((tag) => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
       </TagArea>
       <InfoArea>
-        <Title>Expresso Tradicional</Title>
-        <Subtitle>
-          O tradicional café feito com água quente e grãos moídos
-        </Subtitle>
+        <Title>{data.title}</Title>
+        <Subtitle>{data.subtitle}</Subtitle>
       </InfoArea>
       <PurchaseArea>
         <Price>
-          R$ <h3>9,90</h3>
+          R$ <h3>{data.price}</h3>
         </Price>
         <Actions>
           <QuantityButton quantity={1} />

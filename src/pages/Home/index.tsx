@@ -13,8 +13,11 @@ import CoffeeImg from '../../assets/CoffeeImg.png'
 import { InfoText } from '../../components/InfoText'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
 import { CoffeeCard } from '../../components/CoffeeCard'
+import { useCoffee } from '../../hooks/useCoffee'
 
 export function Home() {
+  const { coffees } = useCoffee()
+
   return (
     <Container>
       <InfoContainer>
@@ -55,13 +58,9 @@ export function Home() {
       <CardList>
         <h2>Nossos cafés</h2>
         <CardContentList>
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
+          {coffees.map((coffee) => (
+            <CoffeeCard key={coffee.id} data={coffee} />
+          ))}
         </CardContentList>
       </CardList>
     </Container>
