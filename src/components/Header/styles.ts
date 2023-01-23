@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const HeaderContainer = styled.header`
@@ -9,6 +10,10 @@ export const HeaderContainer = styled.header`
   width: 100%;
   height: 6.5rem;
   max-width: 70rem;
+`
+
+export const ImageNavLik = styled(NavLink)`
+  text-decoration: none;
 `
 
 export const PurchaseInfo = styled.div`
@@ -36,7 +41,9 @@ export const Address = styled.div`
   }
 `
 
-export const Cart = styled.button`
+export const Cart = styled(NavLink)`
+  text-decoration: none;
+
   display: flex;
   align-items: center;
   justify-content: center;
