@@ -58,6 +58,9 @@ export function CoffeeContextProvider({ children }: ContextProviderProps) {
           },
         ])
       }
+      console.log(cart)
+
+      return inMyCart
     })
   }
 

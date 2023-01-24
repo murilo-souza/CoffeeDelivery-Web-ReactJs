@@ -14,8 +14,10 @@ import {
 } from './styles'
 
 import { QuantityButton } from '../QuantityButton'
+import { useCoffee } from '../../hooks/useCoffee'
 
 interface CoffeeCardProps {
+  id: string
   imgUrl: string
   title: string
   subtitle: string
@@ -28,6 +30,8 @@ interface CoffeeData {
 }
 
 export function CoffeeCard({ data }: CoffeeData) {
+  const { handleCart } = useCoffee()
+
   return (
     <CardContainer>
       <CoffeeImg src={data.imgUrl} />
@@ -46,7 +50,7 @@ export function CoffeeCard({ data }: CoffeeData) {
         </Price>
         <Actions>
           <QuantityButton quantity={1} />
-          <CartButton>
+          <CartButton onClick={() => handleCart(data.id)}>
             <ShoppingCart size={22} weight="fill" />
           </CartButton>
         </Actions>
