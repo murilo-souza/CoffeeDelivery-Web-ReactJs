@@ -14,6 +14,7 @@ export const Container = styled.div<BoxProps>`
     side === 'left' &&
     css`
       border-radius: 6px;
+      width: 40rem;
     `}
 
   ${({ side }) =>

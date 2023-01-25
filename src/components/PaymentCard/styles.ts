@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  width: 100%;
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
+  justify-content: space-around;
   border-bottom: 1px solid ${(props) => props.theme.baseButton};
   margin-bottom: 1.5rem;
 `
@@ -15,15 +15,12 @@ export const Image = styled.img`
 `
 
 export const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   margin-bottom: 1.5rem;
 `
 
-export const Header = styled.header`
+export const Header = styled.div`
   display: flex;
-  gap: 5rem;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
 `
 export const Title = styled.span`

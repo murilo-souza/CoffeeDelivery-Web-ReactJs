@@ -15,8 +15,10 @@ import {
 
 import { QuantityButton } from '../QuantityButton'
 import { useCoffee } from '../../hooks/useCoffee'
+import { useState } from 'react'
+import { formatNumberToMoney } from '../../utils/formatNumberToMoney'
 
-interface CoffeeCardProps {
+export interface CoffeeCardProps {
   id: string
   imgUrl: string
   title: string
@@ -30,7 +32,26 @@ interface CoffeeData {
 }
 
 export function CoffeeCard({ data }: CoffeeData) {
-  const { handleCart } = useCoffee()
+  const [quantity, setQuantity] = useState(1)
+  const { addCoffeeToCart } = useCoffee()
+  const numberFormatted = formatNumberToMoney(data.price)
+
+  function handleAddToCart() {
+    const coffeeToAdd = {
+      ...data,
+      quantity,
+    }
+
+    addCoffeeToCart(coffeeToAdd)
+  }
+
+  function handleIncreaseCoffeeQuantity() {
+    setQuantity((state) => state + 1)
+  }
+
+  function handleDecreaseCoffeeQuantity() {
+    setQuantity((state) => state - 1)
+  }
 
   return (
     <CardContainer>
@@ -46,11 +67,15 @@ export function CoffeeCard({ data }: CoffeeData) {
       </InfoArea>
       <PurchaseArea>
         <Price>
-          R$ <h3>{data.price}</h3>
+          R$ <h3>{numberFormatted}</h3>
         </Price>
         <Actions>
-          <QuantityButton quantity={1} />
-          <CartButton onClick={() => handleCart(data.id)}>
+          <QuantityButton
+            quantity={quantity}
+            onIncrease={handleIncreaseCoffeeQuantity}
+            onDecrease={handleDecreaseCoffeeQuantity}
+          />
+          <CartButton onClick={handleAddToCart}>
             <ShoppingCart size={22} weight="fill" />
           </CartButton>
         </Actions>

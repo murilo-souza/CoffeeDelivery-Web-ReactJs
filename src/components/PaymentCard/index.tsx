@@ -8,27 +8,46 @@ import {
   RemoveButton,
   Title,
 } from './styles'
-import Coffee from '../../assets/Coffee.png'
 import { QuantityButton } from '../QuantityButton'
 import { Trash } from 'phosphor-react'
+import { formatNumberToMoney } from '../../utils/formatNumberToMoney'
+import { Cart, useCoffee } from '../../hooks/useCoffee'
 
-export function PaymentCard() {
+interface PaymentCardProps {
+  coffee: Cart
+}
+
+export function PaymentCard({ coffee }: PaymentCardProps) {
+  const { changeCartItemQuantity, removeCoffeeInCart } = useCoffee()
+
+  function handleIncreaseCoffeeQuantity() {
+    changeCartItemQuantity(coffee.id, 'increase')
+  }
+
+  function handleDecreaseCoffeeQuantity() {
+    changeCartItemQuantity(coffee.id, 'decrease')
+  }
+
   return (
     <Container>
-      <Image src={Coffee} alt="" />
+      <Image src={coffee.imgUrl} alt="" />
       <InfoContainer>
         <Header>
-          <Title>Expresso Tradicional</Title>
-          <Money>R$ 9,90</Money>
+          <Title>{coffee.title}</Title>
         </Header>
         <Footer>
-          <QuantityButton quantity={1} />
-          <RemoveButton>
+          <QuantityButton
+            quantity={coffee.quantity}
+            onIncrease={handleIncreaseCoffeeQuantity}
+            onDecrease={handleDecreaseCoffeeQuantity}
+          />
+          <RemoveButton onClick={() => removeCoffeeInCart(coffee.id)}>
             <Trash size={16} />
             <p>Remover</p>
           </RemoveButton>
         </Footer>
       </InfoContainer>
+      <Money>R$ {formatNumberToMoney(coffee.price * coffee.quantity)}</Money>
     </Container>
   )
 }

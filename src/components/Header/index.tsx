@@ -7,8 +7,10 @@ import {
   PurchaseInfo,
 } from './styles'
 import Logo from '../../assets/Logo.svg'
+import { useCoffee } from '../../hooks/useCoffee'
 
 export function Header() {
+  const { cartQuantity } = useCoffee()
   return (
     <HeaderContainer>
       <ImageNavLik to="/">
@@ -20,6 +22,7 @@ export function Header() {
           <p>Sorocaba, SP</p>
         </Address>
         <Cart to="/checkout">
+          {!!cartQuantity && <div>{cartQuantity}</div>}
           <ShoppingCart weight="fill" size={22} />
         </Cart>
       </PurchaseInfo>

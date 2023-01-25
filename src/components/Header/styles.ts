@@ -42,6 +42,7 @@ export const Address = styled.div`
 `
 
 export const Cart = styled(NavLink)`
+  position: relative;
   text-decoration: none;
 
   display: flex;
@@ -58,5 +59,20 @@ export const Cart = styled(NavLink)`
 
   svg {
     color: ${(props) => props.theme.yellowDark};
+  }
+
+  > div {
+    color: ${(props) => props.theme.white};
+    font-size: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    position: absolute;
+    top: calc(-1.25rem / 2);
+    right: calc(-1.25rem / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: ${(props) => props.theme.yellowDark};
   }
 `

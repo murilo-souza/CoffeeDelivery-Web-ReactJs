@@ -17,4 +17,8 @@ export const InputContainer = styled.input`
   &::placeholder {
     color: ${(props) => props.theme.baseLabel};
   }
+
+  &::focus {
+    color: ${(props) => props.theme.yellow};
+  }
 `

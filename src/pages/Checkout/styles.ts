@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Container = styled.main`
+export const Container = styled.form`
   padding-top: 8.5rem;
   display: flex;
   gap: 2rem;
@@ -87,6 +87,8 @@ export const CheckoutButton = styled.button`
   background-color: ${(props) => props.theme.yellow};
 
   margin-top: 1.5rem;
+
+  cursor: pointer;
 `
 
 export const CheckoutTitle = styled.h5`
@@ -95,4 +97,25 @@ export const CheckoutTitle = styled.h5`
   text-transform: uppercase;
 
   color: ${(props) => props.theme.white};
+`
+export const FormContainer = styled.form`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 12.5rem 17.25rem 3.75rem;
+  column-gap: 0.75rem;
+  row-gap: 1rem;
+  grid-auto-flow: dense;
+
+  .cep {
+    grid-column: span 3;
+    max-width: 12.5rem;
+  }
+
+  .street {
+    grid-column: span 3;
+  }
+
+  .complement {
+    grid-column: span 2;
+  }
 `

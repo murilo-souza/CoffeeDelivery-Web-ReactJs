@@ -1,3 +1,4 @@
+import produce from 'immer'
 import {
   createContext,
   ReactNode,
@@ -5,28 +6,24 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { CoffeeCardProps } from '../components/CoffeeCard'
 import { api } from '../services/api'
 
-interface Coffee {
-  id: string
-  imgUrl: string
-  title: string
-  subtitle: string
-  tags: string[]
-  price: number
-}
-
-interface Cart {
-  id: string
-  imgUrl: string
-  title: string
-  price: number
+export interface Cart extends CoffeeCardProps {
+  quantity: number
 }
 
 interface CoffeeContextData {
-  coffees: Coffee[]
+  coffees: CoffeeCardProps[]
   cart: Cart[]
-  handleCart: (id: string) => void
+  cartQuantity: number
+  cartItemTotalValue: number
+  addCoffeeToCart: (coffee: Cart) => void
+  changeCartItemQuantity: (
+    cartItemId: string,
+    type: 'increase' | 'decrease',
+  ) => void
+  removeCoffeeInCart: (id: string) => void
 }
 
 interface ContextProviderProps {
@@ -35,33 +32,67 @@ interface ContextProviderProps {
 export const CoffeeContext = createContext({} as CoffeeContextData)
 
 export function CoffeeContextProvider({ children }: ContextProviderProps) {
-  const [coffees, setCoffees] = useState<Coffee[]>([])
+  const [coffees, setCoffees] = useState<CoffeeCardProps[]>([])
   const [cart, setCart] = useState<Cart[]>([])
+  const cartQuantity = cart.length
+  const cartItemTotalValue = cart.reduce((total, cartItem) => {
+    return total + cartItem.price * cartItem.quantity
+  }, 0)
 
   async function getData() {
     const response = await api.get('/products')
-    console.log(response)
-
     setCoffees(response.data)
   }
 
-  function handleCart(id: string) {
-    const inMyCart = coffees.map((coffee) => {
-      if (coffee.id === id) {
-        setCart([
-          ...cart,
-          {
-            id: coffee.id,
-            imgUrl: coffee.imgUrl,
-            price: coffee.price,
-            title: coffee.title,
-          },
-        ])
-      }
-      console.log(cart)
+  function addCoffeeToCart(coffee: Cart) {
+    const coffeAlreadyExistsInCart = cart.findIndex(
+      (cart) => cart.id === coffee.id,
+    )
 
-      return inMyCart
+    const newItemInCart = produce(cart, (draft) => {
+      if (coffeAlreadyExistsInCart < 0) {
+        draft.push(coffee)
+      } else {
+        draft[coffeAlreadyExistsInCart].quantity += coffee.quantity
+      }
     })
+
+    setCart(newItemInCart)
+  }
+
+  function changeCartItemQuantity(
+    cartItemId: string,
+    type: 'increase' | 'decrease',
+  ) {
+    const newCart = produce(cart, (draft) => {
+      const CoffeeExistsInCart = cart.findIndex(
+        (cartItem) => cartItem.id === cartItemId,
+      )
+
+      if (CoffeeExistsInCart >= 0) {
+        const item = draft[CoffeeExistsInCart]
+        item.quantity =
+          type === 'increase' ? item.quantity + 1 : item.quantity - 1
+      }
+    })
+
+    setCart(newCart)
+  }
+
+  function removeCoffeeInCart(id: string) {
+    const newCart = produce(cart, (draft) => {
+      const CoffeeExistsInCart = cart.findIndex(
+        (cartItem) => cartItem.id === id,
+      )
+
+      if (CoffeeExistsInCart >= 0) {
+        draft.splice(CoffeeExistsInCart, 1)
+      }
+    })
+
+    setCart(newCart)
+
+    setCart(newCart)
   }
 
   useEffect(() => {
@@ -69,7 +100,17 @@ export function CoffeeContextProvider({ children }: ContextProviderProps) {
   }, [])
 
   return (
-    <CoffeeContext.Provider value={{ coffees, cart, handleCart }}>
+    <CoffeeContext.Provider
+      value={{
+        coffees,
+        cart,
+        cartQuantity,
+        addCoffeeToCart,
+        changeCartItemQuantity,
+        removeCoffeeInCart,
+        cartItemTotalValue,
+      }}
+    >
       {children}
     </CoffeeContext.Provider>
   )
