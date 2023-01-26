@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react'
 import { CoffeeCardProps } from '../components/CoffeeCard'
+import { OrderData } from '../pages/Checkout'
 import { api } from '../services/api'
 
 export interface Cart extends CoffeeCardProps {
@@ -16,6 +17,7 @@ export interface Cart extends CoffeeCardProps {
 interface CoffeeContextData {
   coffees: CoffeeCardProps[]
   cart: Cart[]
+  orderInfo: OrderData
   cartQuantity: number
   cartItemTotalValue: number
   addCoffeeToCart: (coffee: Cart) => void
@@ -24,6 +26,7 @@ interface CoffeeContextData {
     type: 'increase' | 'decrease',
   ) => void
   removeCoffeeInCart: (id: string) => void
+  getOrderInfo: (data: OrderData) => void
 }
 
 interface ContextProviderProps {
@@ -34,6 +37,7 @@ export const CoffeeContext = createContext({} as CoffeeContextData)
 export function CoffeeContextProvider({ children }: ContextProviderProps) {
   const [coffees, setCoffees] = useState<CoffeeCardProps[]>([])
   const [cart, setCart] = useState<Cart[]>([])
+  const [orderInfo, setOrderInfo] = useState({} as OrderData)
   const cartQuantity = cart.length
   const cartItemTotalValue = cart.reduce((total, cartItem) => {
     return total + cartItem.price * cartItem.quantity
@@ -95,6 +99,10 @@ export function CoffeeContextProvider({ children }: ContextProviderProps) {
     setCart(newCart)
   }
 
+  function getOrderInfo(data: OrderData) {
+    setOrderInfo(data)
+  }
+
   useEffect(() => {
     getData()
   }, [])
@@ -105,10 +113,12 @@ export function CoffeeContextProvider({ children }: ContextProviderProps) {
         coffees,
         cart,
         cartQuantity,
+        orderInfo,
         addCoffeeToCart,
         changeCartItemQuantity,
         removeCoffeeInCart,
         cartItemTotalValue,
+        getOrderInfo,
       }}
     >
       {children}

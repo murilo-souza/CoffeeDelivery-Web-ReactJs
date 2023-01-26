@@ -16,8 +16,10 @@ import {
   Title,
 } from './styles'
 import DeliveryMan from '../../assets/deliveryMan.png'
+import { useCoffee } from '../../hooks/useCoffee'
 
 export function Success() {
+  const { orderInfo } = useCoffee()
   return (
     <Container>
       <LeftSide>
@@ -35,10 +37,13 @@ export function Success() {
               </BackgroundIcon>
               <TextContainer>
                 <InfoTitle>
-                  Entrega em <span>Rua João Daniel Martinelli, 102</span>
+                  Entrega em{' '}
+                  <span>
+                    {orderInfo.street}, {orderInfo.houseNumber}
+                  </span>
                 </InfoTitle>
                 <InfoSubtitle isBold={false}>
-                  Farrapos - Porto Alegre, RS
+                  {orderInfo.district} - {orderInfo.city}, {orderInfo.uf}
                 </InfoSubtitle>
               </TextContainer>
             </InfoContainer>
@@ -59,7 +64,15 @@ export function Success() {
               </BackgroundIcon>
               <TextContainer>
                 <InfoTitle>Pagamento na entrega</InfoTitle>
-                <InfoSubtitle isBold={true}>Cartão de Crétito</InfoSubtitle>
+                {orderInfo.type === 'credit' && (
+                  <InfoSubtitle isBold={true}>Cartão de Credito</InfoSubtitle>
+                )}
+                {orderInfo.type === 'debit' && (
+                  <InfoSubtitle isBold={true}>Cartão de Débito</InfoSubtitle>
+                )}
+                {orderInfo.type === 'money' && (
+                  <InfoSubtitle isBold={true}>Dinheiro</InfoSubtitle>
+                )}
               </TextContainer>
             </InfoContainer>
           </InsideBox>

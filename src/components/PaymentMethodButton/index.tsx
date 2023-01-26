@@ -1,23 +1,23 @@
 import { IconProps } from 'phosphor-react'
-import React, { ButtonHTMLAttributes } from 'react'
+import React from 'react'
 import { useTheme } from 'styled-components'
 import { Container, Title } from './styles'
 
-interface PaymentMethodButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface PaymentMethodButtonProps {
   title: string
+  value: string
   icon: React.ElementType<IconProps>
 }
 
 export function PaymentMethodButton({
   title,
+  value,
   icon: Icon,
-  ...rest
 }: PaymentMethodButtonProps) {
   const theme = useTheme()
 
   return (
-    <Container {...rest}>
+    <Container value={value}>
       <Icon size={16} color={theme.purple} />
       <Title>{title}</Title>
     </Container>

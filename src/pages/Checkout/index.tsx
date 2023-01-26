@@ -5,15 +5,22 @@ import {
   MapPinLine,
   Money as MoneyIcon,
 } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
-import { useTheme } from 'styled-components'
-import { Box } from '../../components/Box'
-import { PaymentCard } from '../../components/PaymentCard'
-import { PaymentMethodButton } from '../../components/PaymentMethodButton'
-import { useCoffee } from '../../hooks/useCoffee'
-import { formatNumberToMoney } from '../../utils/formatNumberToMoney'
+
+import { useNavigate } from 'react-router-dom'
+
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+
+import { useTheme } from 'styled-components'
+import { useCoffee } from '../../hooks/useCoffee'
+
+import { PaymentCard } from '../../components/PaymentCard'
+import { PaymentMethodButton } from '../../components/PaymentMethodButton'
+import { formatNumberToMoney } from '../../utils/formatNumberToMoney'
+import { Box } from '../../components/Box'
+import { Input } from '../../components/Input'
+
 import {
   CheckoutButton,
   CheckoutTitle,
@@ -33,35 +40,42 @@ import {
   Value,
   ValueContainer,
 } from './styles'
-import { Input } from '../../components/Input'
 
 const confirmOrderSchema = z.object({
   cep: z.string(),
   street: z.string(),
   houseNumber: z.string(),
-  complement: z.string().nullable(),
+  complement: z.string(),
   district: z.string(),
   city: z.string(),
   uf: z.string(),
+  type: z.enum(['debit', 'credit', 'money']),
 })
 
 export type OrderData = z.infer<typeof confirmOrderSchema>
 
 export function Checkout() {
+  const navigate = useNavigate()
   const theme = useTheme()
-  const { cart, cartItemTotalValue } = useCoffee()
+  const { cart, cartItemTotalValue, cartQuantity, getOrderInfo } = useCoffee()
 
   const deliveryPrice = 3.5 * 100
   const total = cartItemTotalValue + deliveryPrice
   const numberFormatted = formatNumberToMoney(cartItemTotalValue)
   const totalFormatted = formatNumberToMoney(total)
 
-  const { handleSubmit, register } = useForm<OrderData>({
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { isSubmitting },
+  } = useForm<OrderData>({
     resolver: zodResolver(confirmOrderSchema),
   })
 
   function handleOrderCoffee(data: OrderData) {
-    console.log(data)
+    getOrderInfo(data)
+    navigate('/success')
   }
 
   return (
@@ -79,31 +93,20 @@ export function Checkout() {
             </HeaderSide>
           </HeaderAddress>
           <FormContainer>
-            <Input
-              placeholder="CEP"
-              type="text"
-              className="cep"
-              {...register('cep')}
-            />
+            <Input placeholder="CEP" className="cep" {...register('cep')} />
             <Input
               placeholder="Rua"
-              type="text"
               className="street"
               {...register('street')}
             />
+            <Input placeholder="Número" {...register('houseNumber')} />
             <Input
-              placeholder="Número"
-              type="tex"
-              {...register('houseNumber')}
-            />
-            <Input
-              placeholder="Complemento"
-              type="text"
+              placeholder="Complemento (opicional)"
               className="complement"
               {...register('complement')}
             />
-            <Input placeholder="Bairro" type="text" {...register('district')} />
-            <Input placeholder="Cidade" type="text" {...register('city')} />
+            <Input placeholder="Bairro" {...register('district')} />
+            <Input placeholder="Cidade" {...register('city')} />
             <Input placeholder="UF" {...register('uf')} />
           </FormContainer>
         </Box>
@@ -117,11 +120,34 @@ export function Checkout() {
               </SubtitleAddress>
             </HeaderSide>
           </HeaderAddress>
-          <PaymentMethodContainer>
-            <PaymentMethodButton title="Cartão de crédito" icon={CreditCard} />
-            <PaymentMethodButton title="Cartão de débito" icon={Bank} />
-            <PaymentMethodButton title="Dinheiro" icon={MoneyIcon} />
-          </PaymentMethodContainer>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => {
+              return (
+                <PaymentMethodContainer
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <PaymentMethodButton
+                    title="Cartão de crédito"
+                    value="credit"
+                    icon={CreditCard}
+                  />
+                  <PaymentMethodButton
+                    title="Cartão de débito"
+                    icon={Bank}
+                    value="debit"
+                  />
+                  <PaymentMethodButton
+                    title="Dinheiro"
+                    icon={MoneyIcon}
+                    value="money"
+                  />
+                </PaymentMethodContainer>
+              )
+            }}
+          />
         </Box>
       </LeftSide>
       <RightSide>
@@ -145,7 +171,10 @@ export function Checkout() {
               <Total>R$ {totalFormatted}</Total>
             </Value>
           </ValueContainer>
-          <CheckoutButton type="submit">
+          <CheckoutButton
+            type="submit"
+            disabled={!cartQuantity || isSubmitting}
+          >
             <CheckoutTitle>Confirmar Pedido</CheckoutTitle>
           </CheckoutButton>
         </Box>

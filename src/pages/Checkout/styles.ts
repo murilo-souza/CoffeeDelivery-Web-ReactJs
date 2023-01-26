@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import * as RadioGroup from '@radix-ui/react-radio-group'
 
 export const Container = styled.form`
   padding-top: 8.5rem;
@@ -38,7 +39,7 @@ export const SubtitleAddress = styled.h4`
   font-weight: 400;
 `
 
-export const PaymentMethodContainer = styled.div`
+export const PaymentMethodContainer = styled(RadioGroup.Root)`
   display: flex;
   justify-content: space-between;
 `
@@ -89,6 +90,11 @@ export const CheckoutButton = styled.button`
   margin-top: 1.5rem;
 
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `
 
 export const CheckoutTitle = styled.h5`
@@ -98,7 +104,7 @@ export const CheckoutTitle = styled.h5`
 
   color: ${(props) => props.theme.white};
 `
-export const FormContainer = styled.form`
+export const FormContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 12.5rem 17.25rem 3.75rem;
