@@ -125,3 +125,9 @@ export const FormContainer = styled.div`
     grid-column: span 2;
   }
 `
+export const FormError = styled.span`
+  font-size: 1rem;
+  font-weight: 400;
+  color: #f75a68;
+  margin-bottom: 2rem;
+`

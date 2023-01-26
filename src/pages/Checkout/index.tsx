@@ -27,6 +27,7 @@ import {
   Container,
   Description,
   FormContainer,
+  FormError,
   HeaderAddress,
   HeaderSide,
   LeftSide,
@@ -42,14 +43,18 @@ import {
 } from './styles'
 
 const confirmOrderSchema = z.object({
-  cep: z.string(),
-  street: z.string(),
-  houseNumber: z.string(),
-  complement: z.string(),
-  district: z.string(),
-  city: z.string(),
-  uf: z.string(),
-  type: z.enum(['debit', 'credit', 'money']),
+  cep: z.string().min(4, { message: 'Informe o CEP corretamente' }),
+  street: z.string().min(4, { message: 'Informe a Rua' }),
+  houseNumber: z.string().min(1, { message: 'Informe o número da casa' }),
+  complement: z.string().nullable(),
+  district: z.string().min(4, { message: 'Informe o bairro' }),
+  city: z.string().min(4, { message: 'Informe a cidade' }),
+  uf: z.string().max(2, { message: 'Informe o estado' }),
+  type: z.enum(['debit', 'credit', 'money'], {
+    errorMap: () => {
+      return { message: 'Informe um método de pagamento' }
+    },
+  }),
 })
 
 export type OrderData = z.infer<typeof confirmOrderSchema>
@@ -68,7 +73,7 @@ export function Checkout() {
     handleSubmit,
     register,
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<OrderData>({
     resolver: zodResolver(confirmOrderSchema),
   })
@@ -93,21 +98,41 @@ export function Checkout() {
             </HeaderSide>
           </HeaderAddress>
           <FormContainer>
-            <Input placeholder="CEP" className="cep" {...register('cep')} />
+            <Input
+              placeholder="CEP"
+              className="cep"
+              {...register('cep')}
+              type="number"
+              required
+            />
             <Input
               placeholder="Rua"
               className="street"
               {...register('street')}
+              required
+              minLength={4}
             />
-            <Input placeholder="Número" {...register('houseNumber')} />
+            <Input
+              placeholder="Número"
+              {...register('houseNumber')}
+              type="number"
+              maxLength={5}
+              required
+            />
             <Input
               placeholder="Complemento (opicional)"
               className="complement"
               {...register('complement')}
+              maxLength={40}
             />
-            <Input placeholder="Bairro" {...register('district')} />
-            <Input placeholder="Cidade" {...register('city')} />
-            <Input placeholder="UF" {...register('uf')} />
+            <Input placeholder="Bairro" {...register('district')} required />
+            <Input placeholder="Cidade" {...register('city')} required />
+            <Input
+              placeholder="UF"
+              {...register('uf')}
+              maxLength={2}
+              required
+            />
           </FormContainer>
         </Box>
         <Box side="left">
@@ -149,6 +174,7 @@ export function Checkout() {
             }}
           />
         </Box>
+        <FormError>{errors.type?.message}</FormError>
       </LeftSide>
       <RightSide>
         <Title>Complete seu pedido</Title>
