@@ -18,7 +18,7 @@ export const Container = styled(RadioGroup.Item)`
 
   cursor: pointer;
 
-  &[data-state='unchecked']:hover {
+  &:not(:disabled)[data-state='unchecked']:hover {
     transition: background-color 0.2s;
     background-color: ${(props) => props.theme.baseHover};
   }
@@ -26,6 +26,11 @@ export const Container = styled(RadioGroup.Item)`
   &[data-state='checked'] {
     background-color: ${(props) => props.theme.purpleLight};
     border: 1px solid ${(props) => props.theme.purple};
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 `
 

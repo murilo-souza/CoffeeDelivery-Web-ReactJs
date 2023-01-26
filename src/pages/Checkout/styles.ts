@@ -91,6 +91,11 @@ export const CheckoutButton = styled.button`
 
   cursor: pointer;
 
+  &:not(:disabled):hover {
+    transition: background-color 0.2s;
+    background-color: ${(props) => props.theme.yellowDark};
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;

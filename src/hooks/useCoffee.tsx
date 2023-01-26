@@ -100,6 +100,7 @@ export function CoffeeContextProvider({ children }: ContextProviderProps) {
   }
 
   function getOrderInfo(data: OrderData) {
+    setCart([])
     setOrderInfo(data)
   }
 

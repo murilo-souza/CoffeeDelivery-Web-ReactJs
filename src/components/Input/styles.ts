@@ -21,4 +21,9 @@ export const InputContainer = styled.input`
   &::focus {
     color: ${(props) => props.theme.yellow};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 `
