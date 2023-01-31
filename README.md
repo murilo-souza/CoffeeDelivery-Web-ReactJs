@@ -5,7 +5,7 @@
 
 
 <h2>Project</h2>
-<p>Second Ignite curse Challenge, create a application to simulete a Coffee Delivery</p>
+<p>Second Ignite course Challenge, create a application to simulete a Coffee Delivery</p>
 
 <h2>Stacks</h2>
 <ul>
