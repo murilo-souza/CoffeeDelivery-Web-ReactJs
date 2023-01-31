@@ -16,9 +16,9 @@
   <li><a href="https://www.radix-ui.com/">Radix UI</a></li>
   <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
   <li><a href="https://www.npmjs.com/package/json-server">JSON-Server</a></li>
+  <li><a href="https://reactrouter.com/en/main">React Router</a></li>
   <li><a href="https://phosphoricons.com/">Phosphor Icons</a></li>
   <li><a href="https://react-hook-form.com/">React Hook Form</a></li>
-  <li><a href="https://reactrouter.com/en/main">React Router Dom</a></li>
   <li><a href="https://styled-components.com/">Styled Components</a></li>
 </ul>
 
