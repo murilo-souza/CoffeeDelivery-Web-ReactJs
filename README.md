@@ -32,3 +32,6 @@
 
 <h2>Layout</h2>
 <p>To see the complet layout of the application, access the <a href="https://www.figma.com/file/UN6sV48M1v54rlxEK4H5Nx/Coffee-Delivery-(Copy)?node-id=0%3A1&t=pvtPlSytWCTU3Djc-0">Link</a></p>
+
+<h2>Video</h2>
+<p>To watch the application video, access the <a href="https://www.linkedin.com/posts/murilo-leme-de-souza_react-reactjs-developer-activity-7030927331292540928-8pGo?utm_source=share&utm_medium=member_desktop">Link<a/>
